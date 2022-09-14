@@ -10,10 +10,6 @@ namespace DigitoVerificador
     {
         static void Main(string[] args)
         {
-            //Producto producto = new Producto() { Nombre = "Kiwi", Precio = 200 };
-            //producto.DV = GestorDigitoVerificador.CalcularDigitoVerificadorHorizontal(producto);
-            //Console.WriteLine(producto.ToString());
-
             Persona personaA = new Persona() { DNI = "40000000", Nombre = "Juan", Apellido = "Sanchez", FechaDeNacimiento = new DateTime(1993, 11, 04) };
             personaA.DV = GestorDigitoVerificador.CalcularDigitoVerificadorHorizontal(personaA);
             Console.WriteLine(personaA.ToString());
@@ -66,6 +62,25 @@ namespace DigitoVerificador
             dvvNuevo = Criptografia.Hash(dvv);
 
             Console.WriteLine("\nDVV recalculado de personas: {0}\n", dvvNuevo);
+
+            //Otra posible implementación del dígito verifidador
+            Console.WriteLine("\nOtra alternativa...\n");
+
+            Producto producto = new Producto() { Nombre = "Kiwi", Precio = 200 };
+            producto.DV = GestorDigitoVerificador.CalcularDigitoVerificadorHorizontalB(producto).ToString();
+            Console.WriteLine(producto.ToString());
+
+            producto.Nombre = "kiwi";
+            producto.DV = GestorDigitoVerificador.CalcularDigitoVerificadorHorizontalB(producto).ToString();
+            Console.WriteLine(producto.ToString());
+
+            producto.Nombre = "Kiwi";
+            producto.DV = GestorDigitoVerificador.CalcularDigitoVerificadorHorizontalB(producto).ToString();
+            Console.WriteLine(producto.ToString());
+
+            producto.Nombre = "Kiwissssssssssssssssssssssssssssssss";
+            producto.DV = GestorDigitoVerificador.CalcularDigitoVerificadorHorizontalB(producto).ToString();
+            Console.WriteLine(producto.ToString());
 
             Console.ReadKey();
         }

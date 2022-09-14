@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -37,16 +38,43 @@ namespace DigitoVerificador
             return Criptografia.Hash(dvh);
         }
 
-        public static string CalcularDigitoVerificadorVertical(IList<IVerificableEntity> entities)
+        //Otra alternativa...
+        public static int CalcularDigitoVerificadorHorizontalB(IVerificableEntity entity)
         {
-            string dvv = string.Empty;
+            Type t = entity.GetType();
+            string dvh = string.Empty;
+            var props = t.GetProperties();
 
-            foreach (var item in entities)
+            foreach (var item in props)
             {
-                dvv += CalcularDigitoVerificadorHorizontal(item);
+                var atributos = item.GetCustomAttributes();
+                var verificable = atributos.FirstOrDefault(i => i.GetType().Equals(typeof(PropiedadVerificable)));
+
+                if (verificable != null)
+                {
+                    if (item.PropertyType.FullName.Equals(typeof(DateTime).FullName))
+                    {
+                        DateTime a = (DateTime)item.GetValue(entity);
+                        dvh += a.ToString("ddmmyyyyhhmmss");
+                    }
+                    else
+                    {
+                        dvh += item.GetValue(entity).ToString();
+                    }
+                }
             }
 
-            return Criptografia.Hash(dvv);
+            char[] caracteres = new char[dvh.Length];
+            caracteres = dvh.ToCharArray();
+            int contador = 0;
+
+            for (int i = 0; i < dvh.Length; i++)
+            {
+                int numChar = caracteres[i];
+                contador += numChar * 2;
+            }
+
+            return (11 - (contador % 11) * dvh.Length);
         }
     }
 }
