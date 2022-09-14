@@ -76,5 +76,24 @@ namespace DigitoVerificador
 
             return (11 - (contador % 11) * dvh.Length);
         }
+
+        public static int CalcularDigitoVerificadorHorizontalC(IVerificableEntity entity)
+        {
+            string cadena = string.Empty;
+
+            cadena = entity.ToString();
+
+            char[] caracteres = new char[cadena.Length];
+            caracteres = cadena.ToCharArray();
+            int contador = 0;
+
+            for (int i = 0; i < cadena.Length; i++)
+            {
+                int numChar = caracteres[i];
+                contador += numChar * 2;
+            }
+
+            return (11 - (contador % 11) * cadena.Length);
+        }
     }
 }

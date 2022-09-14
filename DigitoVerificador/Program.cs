@@ -82,6 +82,10 @@ namespace DigitoVerificador
             producto.DV = GestorDigitoVerificador.CalcularDigitoVerificadorHorizontalB(producto).ToString();
             Console.WriteLine(producto.ToString());
 
+            //Sin reflection
+            producto.DV = GestorDigitoVerificador.CalcularDigitoVerificadorHorizontalC(producto).ToString();
+            Console.WriteLine(producto.ToString());
+
             Console.ReadKey();
         }
     }
